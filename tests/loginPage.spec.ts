@@ -12,6 +12,6 @@ test('Login to the site', async({ page }) => {
   await username.fill('admin');
   await password.fill('admin');
   await loginBtn.click();
-  //123
+  
   await expect(page).toHaveTitle('Order Pizza');
 })
