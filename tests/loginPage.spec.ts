@@ -8,10 +8,9 @@ test('Login to the site', async({ page }) => {
   const password = page.locator('#password');
   const loginBtn = page.locator('#login');
 
-  await page.pause();
   await username.fill('admin');
   await password.fill('admin');
   await loginBtn.click();
-  
+
   await expect(page).toHaveTitle('Order Pizza');
 })
