@@ -24,13 +24,13 @@ test('Unsuccessful login - wrong username', async({ page }) => {
   const username = page.locator('#user');
   const password = page.locator('#password');
   const loginBtn = page.locator('#login');
-  const validatioMsg = page.locator('#message');
+  const validationMsg = page.locator('#message');
 
   await username.fill('123');
   await password.fill('admin');
   await loginBtn.click();
 
-  await expect(validatioMsg).toBeVisible();
+  await expect(validationMsg).toBeVisible();
 })
 
 
@@ -41,11 +41,11 @@ test('Unsuccessful login - wrong password', async({ page }) => {
   const username = page.locator('#user');
   const password = page.locator('#password');
   const loginBtn = page.locator('#login');
-  const validatioMsg = page.locator('#message');
+  const validationMsg = page.locator('#message');
 
   await username.fill('admin');
   await password.fill('123');
   await loginBtn.click();
 
-  await expect(validatioMsg).toBeVisible();
+  await expect(validationMsg).toBeVisible();
 })
