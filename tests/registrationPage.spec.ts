@@ -70,7 +70,7 @@ test('Unsuccessful registration - not checked terms', async ({ page }) => {
     const password = page.locator('#pwd1');
     const confirmPassword = page.locator('#pwd2');
     const registerNowBtn = page.locator('#submit_button');
-
+    const terms = page.getByRole('checkbox', {name: 'terms'});
     
     await firstName.fill('Kristiyan');
     await lastName.fill('Draganov');
@@ -79,5 +79,10 @@ test('Unsuccessful registration - not checked terms', async ({ page }) => {
     await confirmPassword.fill('admin');
     await registerNowBtn.click();
     
-    await expect(page).toHaveScreenshot();
+    const validationTooltip = await terms.evaluate((element) => {
+        const input = element as HTMLInputElement
+        return input.validationMessage
+      })
+    
+      expect(validationTooltip).toContain("Please check this box if you want to proceed.")
 })
