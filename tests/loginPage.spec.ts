@@ -1,51 +1,28 @@
-import {test, expect} from '@playwright/test';
+import { test, expect } from "@playwright/test";
+import { LoginPage } from "./pages/LoginPage";
+
+test("Successful login to the site", async ({ page }) => {
+  const loginPage = new LoginPage(page);
+
+  await loginPage.goto();
+  await loginPage.login("admin", "admin");
+  await loginPage.sucessfullLogin();
+});
 
 
-test('Successful login to the site', async({ page }) => {
-  await page.goto('https://play1.automationcamp.ir/login.html');
-  await expect(page).toHaveTitle('Login');
+test("Unsuccessful login - wrong username", async ({ page }) => {
+  const loginPage = new LoginPage(page);
 
-  const username = page.locator('#user');
-  const password = page.locator('#password');
-  const loginBtn = page.locator('#login');
-
-  await username.fill('admin');
-  await password.fill('admin');
-  await loginBtn.click();
-
-  await expect(page).toHaveTitle('Order Pizza');
-})
+  await loginPage.goto();
+  await loginPage.login("123", "admin");
+  await loginPage.failedLogin();
+});
 
 
-test('Unsuccessful login - wrong username', async({ page }) => {
-  await page.goto('https://play1.automationcamp.ir/login.html');
-  await expect(page).toHaveTitle('Login');
+test("Unsuccessful login - wrong password", async ({ page }) => {
+  const loginPage = new LoginPage(page);
 
-  const username = page.locator('#user');
-  const password = page.locator('#password');
-  const loginBtn = page.locator('#login');
-  const validationMsg = page.locator('#message');
-
-  await username.fill('123');
-  await password.fill('admin');
-  await loginBtn.click();
-
-  await expect(validationMsg).toBeVisible();
-})
-
-
-test('Unsuccessful login - wrong password', async({ page }) => {
-  await page.goto('https://play1.automationcamp.ir/login.html');
-  await expect(page).toHaveTitle('Login');
-
-  const username = page.locator('#user');
-  const password = page.locator('#password');
-  const loginBtn = page.locator('#login');
-  const validationMsg = page.locator('#message');
-
-  await username.fill('admin');
-  await password.fill('123');
-  await loginBtn.click();
-
-  await expect(validationMsg).toBeVisible();
-})
+  await loginPage.goto();
+  await loginPage.login("admin", "123");
+  await loginPage.failedLogin();
+});
