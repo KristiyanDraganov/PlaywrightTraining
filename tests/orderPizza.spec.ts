@@ -57,7 +57,7 @@ test('Order pizza - adds selected pizza to cart', async ({ page }) => {
   await expect(addedMsgText?.trim()).toBe('Pizza added to the cart!');
 });
 
-test('Order pizza - shows error message when no size is selected', async ({ page }) => {
+test('Order pizza - shows error message when no quantity is selected', async ({ page }) => {
   const addToCartBtn = page.getByRole('button', { name: 'Add to Cart' });
   const errorModal = page.locator('.modal-content .modal-body');
 
