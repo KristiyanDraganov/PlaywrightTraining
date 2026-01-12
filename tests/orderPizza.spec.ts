@@ -47,9 +47,24 @@ test('Order pizza - adds selected pizza to cart', async ({ page }) => {
 
   await addToCartBtn.click();
 
-  // Wait for loader to appear and disappear before checking the message
+  // Wait for loader to appear and then disappear before checking the message
   const loader = page.locator('#exampleModalLongTitle');
   await expect(loader).toBeVisible();
   await expect(loader).not.toBeVisible();
-  await expect(itemsAddedMsg).toHaveText('Pizza added to the cart!');
+  
+  // Use .trim() with optional chaining to make the assertion less flaky
+  const addedMsgText = await itemsAddedMsg.textContent();
+  await expect(addedMsgText?.trim()).toBe('Pizza added to the cart!');
+});
+
+test('Order pizza - shows error message when no size is selected', async ({ page }) => {
+  const addToCartBtn = page.getByRole('button', { name: 'Add to Cart' });
+  const errorModal = page.locator('.modal-content .modal-body');
+
+  await addToCartBtn.click();
+  await expect(errorModal).toBeVisible();
+
+  // Use .trim() with optional chaining to make the assertion less flaky
+  const errorMsgText = await errorModal.textContent();
+  await expect(errorMsgText?.trim()).toBe('Quantity must be 1 or more!');
 });
